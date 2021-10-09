@@ -3,6 +3,14 @@ import uuid
 
 from flask import Flask, redirect, url_for, jsonify, make_response
 
+
+class HealthLevel(object):
+    DOWN = "down\n"
+    UP = "up\n"
+    MAINTENANCE = "maint\n"
+    READY = "ready\n"
+
+
 name = os.environ.get("FLASK_APP_NAME", uuid.uuid4())
 app = Flask(__name__)
 
@@ -13,13 +21,9 @@ def hello():
 
 
 @app.route("/healthcheck")
-def healthcheck():
-    return make_response(
-        jsonify(
-            status="OK",
-        ),
-        200
-    )
+def health_check():
+    health_level = os.environ.get("FLASK_HEALTH_LEVEL", HealthLevel.READY)
+    return health_level
 
 
 if __name__ == '__main__':
