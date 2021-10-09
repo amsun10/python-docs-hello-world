@@ -1,14 +1,15 @@
-from flask import Flask, redirect, url_for, jsonify, make_response
-import socket
+import os
+import uuid
 
+from flask import Flask, redirect, url_for, jsonify, make_response
+
+name = os.environ.get("FLASK_APP_NAME", uuid.uuid4())
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
-    host_name = socket.gethostname()
-    ip_address = socket.gethostbyname(host_name)
-    return "Hello World: {}".format(ip_address)
+    return "Hello World: {}".format(name)
 
 
 @app.route("/healthcheck")
@@ -22,4 +23,5 @@ def healthcheck():
 
 
 if __name__ == '__main__':
+    print("FLASK_APP_NAME: {}".format(name))
     app.run(host="0.0.0.0", port=5000)
