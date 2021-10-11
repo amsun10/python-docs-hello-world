@@ -3,10 +3,10 @@ import socketserver
 
 
 class HealthLevel(object):
-    DOWN = "down\n"
-    UP = "up\n"
-    MAINTENANCE = "maint\n"
-    READY = "ready\n"
+    DOWN = "down"
+    UP = "up"
+    MAINTENANCE = "maint"
+    READY = "ready"
 
 
 class HealthCheckHandler(socketserver.BaseRequestHandler):
@@ -25,7 +25,7 @@ class HealthCheckHandler(socketserver.BaseRequestHandler):
         print(self.data)
         health_level = os.environ.get("FLASK_HEALTH_LEVEL", HealthLevel.READY)
         print("current health level: {}".format(health_level))
-        self.request.sendall(bytes(health_level, "utf-8"))
+        self.request.sendall(bytes(health_level + '\n', "utf-8"))
 
 
 if __name__ == "__main__":
