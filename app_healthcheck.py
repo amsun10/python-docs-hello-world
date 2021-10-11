@@ -18,6 +18,7 @@ app = Flask(__name__)
 @app.route("/")
 def health_check():
     health_level = os.environ.get("FLASK_HEALTH_LEVEL", HealthLevel.READY)
+    print("current health level: {}".format(health_level))
     return health_level
 
 
