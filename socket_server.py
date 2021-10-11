@@ -25,7 +25,7 @@ class HealthCheckHandler(socketserver.BaseRequestHandler):
         print(self.data)
         health_level = os.environ.get("FLASK_HEALTH_LEVEL", HealthLevel.READY)
         print("current health level: {}".format(health_level))
-        self.request.sendall(health_level)
+        self.request.sendall(bytes(health_level))
 
 
 if __name__ == "__main__":
