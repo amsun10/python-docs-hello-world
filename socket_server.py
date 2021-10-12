@@ -1,5 +1,6 @@
 import os
 import socketserver
+import time
 
 
 class HealthLevel(object):
@@ -7,6 +8,12 @@ class HealthLevel(object):
     UP = "up"
     MAINTENANCE = "maint"
     READY = "ready"
+
+
+def get_status():
+    with open("status.txt", "r") as f:
+        status = f.read().strip('\n')
+    return status
 
 
 class HealthCheckHandler(socketserver.BaseRequestHandler):
@@ -23,7 +30,7 @@ class HealthCheckHandler(socketserver.BaseRequestHandler):
         self.data = self.request.recv(1024).strip()
         print("{} wrote:".format(self.client_address[0]))
         print(self.data)
-        health_level = os.environ.get("FLASK_HEALTH_LEVEL", HealthLevel.READY)
+        health_level = get_status()
         print("current health level: {}".format(health_level))
         self.request.sendall(bytes(health_level + '\n', "utf-8"))
 
