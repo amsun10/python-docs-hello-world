@@ -1,7 +1,7 @@
 import os
 import uuid
 
-from flask import Flask, redirect, url_for, jsonify, make_response
+from flask import Flask, redirect, url_for, jsonify, make_response, request
 
 
 class HealthLevel(object):
@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello World: {}".format(name)
+    cookie_name = request.cookies.get("COOKIE_TEST")
+    return "Hello World: {}, Cookie: {},".format(name, cookie_name)
 
 
 @app.route("/healthcheck")
